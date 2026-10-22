@@ -1,5 +1,7 @@
 # ⚽ Sorteador de Times
 
+Site: https://rafaelunifei.github.io/APP_de_Sorteios_de_Times_de_Futebol_Equilibrados/
+
 Aplicação web para **sortear times de futebol equilibrados**, levando em consideração não apenas a qualidade geral dos jogadores, mas também suas habilidades de **ataque, defesa e goleiro**, além de suas preferências de posição.
 
 A ideia é simples: cadastrar os jogadores uma vez, informar quantos times serão formados e quantos jogadores haverá em cada time. O sistema encontra diversas combinações equilibradas e escolhe uma delas aleatoriamente.
