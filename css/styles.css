@@ -1,0 +1,826 @@
+/* ============================================================
+   SORTEADOR DE TIMES — Estilos Globais
+   Mobile-first PWA · Dark Sporty Theme
+   ============================================================ */
+
+/* ---------- Reset & Box Model ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  --bg: #0f0f1a;
+  --card-bg: #1a1a2e;
+  --card-border: #16213e;
+  --primary: #0ea5e9;
+  --accent: #22c55e;
+  --danger: #ef4444;
+  --secondary: #6366f1;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --star-active: #fbbf24;
+  --star-inactive: #374151;
+  --surface: #1e293b;
+  --border: #334155;
+  --input-bg: #0f172a;
+
+  /* Cores dos times */
+  --team-1: #3b82f6;
+  --team-2: #ef4444;
+  --team-3: #22c55e;
+  --team-4: #f59e0b;
+  --team-5: #a855f7;
+  --team-6: #ec4899;
+  --team-7: #14b8a6;
+  --team-8: #f97316;
+}
+
+/* ---------- Body & Container ---------- */
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---------- Safe Area Insets (iPhone notch) ---------- */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* ---------- Scrollbar (Webkit) ---------- */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* ---------- Touch Improvements ---------- */
+button,
+.star,
+.pref-btn,
+.stepper-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   TELAS — Transições
+   ============================================================ */
+.screen {
+  display: none;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.screen.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  width: 100%;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+.btn-secondary {
+  background: var(--surface);
+  color: #e2e8f0;
+  border: 1px solid var(--border);
+}
+.btn-accent {
+  background: var(--accent);
+  color: white;
+}
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  width: auto;
+}
+.btn-large {
+  /* Mantém o tamanho padrão mas garante destaque */
+}
+.btn-full {
+  width: 100%;
+}
+
+/* ---------- Badge no Botão ---------- */
+.btn-badge {
+  background: var(--danger);
+  color: white;
+  border-radius: 50%;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  position: absolute;
+  right: 16px;
+}
+
+/* ---------- Botão Link ---------- */
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 12px;
+  text-decoration: underline;
+}
+
+/* ---------- Botão Ícone ---------- */
+.btn-icon-only {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-left: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   HEADER DA TELA
+   ============================================================ */
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.screen-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--card-border);
+}
+
+/* ============================================================
+   HOME SCREEN
+   ============================================================ */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 40px 0;
+  text-align: center;
+}
+.app-logo {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.home-container h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.app-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  font-size: 0.95rem;
+}
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ============================================================
+   FORMULÁRIO
+   ============================================================ */
+.form-card h3 {
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+input[type="text"]:focus {
+  border-color: var(--primary);
+}
+input[type="text"]::placeholder {
+  color: #475569;
+}
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   ESTRELAS (STAR RATING)
+   ============================================================ */
+.star-rating {
+  display: flex;
+  gap: 8px;
+}
+.star {
+  font-size: 2rem;
+  color: var(--star-inactive);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.star.active {
+  color: var(--star-active);
+}
+.star:active {
+  transform: scale(1.2);
+}
+
+/* ============================================================
+   BOTÕES DE PREFERÊNCIA
+   ============================================================ */
+.preference-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.pref-btn {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pref-btn.active {
+  border-color: var(--primary);
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--primary);
+}
+
+/* ============================================================
+   LISTA DE JOGADORES
+   ============================================================ */
+.player-item {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--card-border);
+  gap: 12px;
+  transition: transform 0.2s;
+}
+.player-item .player-info {
+  flex: 1;
+  min-width: 0;
+}
+.player-item .player-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-item .player-skills {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.player-item .player-pref {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.player-item .player-actions {
+  display: flex;
+  gap: 4px;
+}
+.player-item .player-actions button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.player-item .player-actions button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   STEPPER (INCREMENTO / DECREMENTO)
+   ============================================================ */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  justify-content: center;
+}
+.stepper-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.stepper-btn:active {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.stepper-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 80px;
+  text-align: center;
+}
+
+/* ============================================================
+   CONFIGURAÇÃO — Resumo e Erros
+   ============================================================ */
+.config-group {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.config-group label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.config-summary {
+  background: var(--input-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  text-align: center;
+}
+.config-summary .summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+.config-summary .summary-item .value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.config-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 14px;
+  color: #fca5a5;
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   SELEÇÃO DE JOGADORES (Checkboxes)
+   ============================================================ */
+.player-checkboxes {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.player-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  transition: background 0.2s;
+}
+.player-checkbox-item:active {
+  background: rgba(255, 255, 255, 0.05);
+}
+.player-checkbox-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--primary);
+}
+.player-checkbox-item label {
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+.selected-count {
+  text-align: center;
+  margin-top: 12px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   CARDS DE TIME (Resultados)
+   ============================================================ */
+.team-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 2px solid;
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Stagger animação de entrada */
+.team-card:nth-child(1) { animation-delay: 0.1s; }
+.team-card:nth-child(2) { animation-delay: 0.2s; }
+.team-card:nth-child(3) { animation-delay: 0.3s; }
+.team-card:nth-child(4) { animation-delay: 0.4s; }
+.team-card:nth-child(5) { animation-delay: 0.5s; }
+.team-card:nth-child(6) { animation-delay: 0.6s; }
+.team-card:nth-child(7) { animation-delay: 0.7s; }
+.team-card:nth-child(8) { animation-delay: 0.8s; }
+
+/* Cores dos times via data-attribute (usado pelo JS) */
+.team-card[data-team="1"] { border-color: var(--team-1); }
+.team-card[data-team="2"] { border-color: var(--team-2); }
+.team-card[data-team="3"] { border-color: var(--team-3); }
+.team-card[data-team="4"] { border-color: var(--team-4); }
+.team-card[data-team="5"] { border-color: var(--team-5); }
+.team-card[data-team="6"] { border-color: var(--team-6); }
+.team-card[data-team="7"] { border-color: var(--team-7); }
+.team-card[data-team="8"] { border-color: var(--team-8); }
+
+.team-card .team-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.team-card .team-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.team-card .team-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.team-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.team-player:last-child {
+  border-bottom: none;
+}
+.team-player .role-icon {
+  font-size: 1.1rem;
+  width: 28px;
+  text-align: center;
+}
+.team-player .tp-name {
+  flex: 1;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+.team-player .tp-stars {
+  color: var(--star-active);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.team-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.team-stat {
+  text-align: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.team-stat .stat-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.team-stat .stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+.team-stat.total {
+  grid-column: span 2;
+  background: rgba(14, 165, 233, 0.1);
+}
+
+/* ============================================================
+   INDICADOR DE EQUILÍBRIO
+   ============================================================ */
+.balance-indicator {
+  text-align: center;
+  padding: 14px;
+  margin-bottom: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+}
+.balance-indicator .balance-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.balance-indicator .balance-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.balance-indicator .balance-value.medium {
+  color: var(--star-active);
+}
+.balance-indicator .balance-value.low {
+  color: var(--danger);
+}
+
+/* ============================================================
+   AÇÕES DOS RESULTADOS
+   ============================================================ */
+.results-actions {
+  padding: 16px 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================================================
+   OVERLAY DE SORTEIO (Animação)
+   ============================================================ */
+.sorting-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 15, 26, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.sorting-animation {
+  text-align: center;
+}
+.sorting-ball {
+  font-size: 4rem;
+  animation: bounce 0.6s infinite alternate;
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-30px); }
+}
+.sorting-animation p {
+  color: var(--text-secondary);
+  margin-top: 16px;
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   MODAL DE CONFIRMAÇÃO
+   ============================================================ */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 15, 26, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.modal-content {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.modal-content p {
+  color: #e2e8f0;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+.modal-actions .btn {
+  flex: 1;
+}
+
+/* ============================================================
+   TELA SOBRE (About)
+   ============================================================ */
+.about-card h3 {
+  color: var(--text-primary);
+  margin: 20px 0 8px;
+  font-size: 1rem;
+}
+.about-card h3:first-child {
+  margin-top: 0;
+}
+.about-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.weight-info {
+  margin: 12px 0;
+}
+.weight-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.weight-item span:first-child {
+  min-width: 90px;
+}
+.weight-bar {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   ESTADO VAZIO
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+.empty-state p:first-child {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+.text-muted {
+  color: var(--text-muted);
+}
+.text-center {
+  text-align: center;
+}
