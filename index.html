@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <title>Sorteador de Times</title>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- ==================== TELA 1: HOME ==================== -->
+    <section id="home-screen" class="screen active">
+      <div class="home-container">
+        <div class="app-logo">⚽</div>
+        <h1>SORTEADOR<br>DE TIMES</h1>
+        <p class="app-subtitle">Divide sua pelada em times equilibrados</p>
+
+        <div class="home-buttons">
+          <button class="btn btn-primary btn-large" data-screen="players-screen">
+            <span class="btn-icon">👥</span>
+            <span class="btn-text">Jogadores</span>
+            <span class="btn-badge" id="player-count-badge">0</span>
+          </button>
+
+          <button class="btn btn-secondary btn-large" data-screen="config-screen">
+            <span class="btn-icon">⚙️</span>
+            <span class="btn-text">Configurar Sorteio</span>
+          </button>
+
+          <button class="btn btn-accent btn-large" id="btn-quick-sort" data-screen="config-screen">
+            <span class="btn-icon">🎲</span>
+            <span class="btn-text">Sortear Times</span>
+          </button>
+        </div>
+
+        <button class="btn-link" id="btn-about">Como funciona o equilíbrio?</button>
+      </div>
+    </section>
+
+    <!-- ==================== TELA 2: JOGADORES ==================== -->
+    <section id="players-screen" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" data-screen="home-screen">←</button>
+        <h2>👥 Jogadores</h2>
+        <button class="btn-icon-only" id="btn-clear-all" title="Limpar todos">🗑️</button>
+      </header>
+
+      <!-- Formulário de Adicionar Jogador -->
+      <div class="card form-card" id="player-form">
+        <h3 id="form-title">Adicionar Jogador</h3>
+
+        <div class="form-group">
+          <label for="player-name">Nome</label>
+          <input type="text" id="player-name" placeholder="Nome do jogador" autocomplete="off" maxlength="30">
+        </div>
+
+        <!-- Botão de preenchimento rápido -->
+        <button class="btn btn-small btn-outline" id="btn-fill-median">3⭐ em tudo</button>
+
+        <div class="form-group">
+          <label>⚽ Ataque</label>
+          <div class="star-rating" data-skill="attack">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🛡️ Defesa</label>
+          <div class="star-rating" data-skill="defense">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🧤 Goleiro</label>
+          <div class="star-rating" data-skill="goalkeeper">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Preferência de posição</label>
+          <div class="preference-buttons">
+            <button class="pref-btn" data-pref="attack">⚽ Ataque</button>
+            <button class="pref-btn" data-pref="defense">🛡️ Defesa</button>
+            <button class="pref-btn" data-pref="goalkeeper">🧤 Goleiro</button>
+            <button class="pref-btn active" data-pref="any">🔄 Indiferente</button>
+          </div>
+        </div>
+
+        <input type="hidden" id="editing-player-id" value="">
+
+        <div class="form-actions">
+          <button class="btn btn-primary btn-large" id="btn-save-player">ADICIONAR</button>
+          <button class="btn btn-outline btn-large" id="btn-cancel-edit" style="display:none;">CANCELAR</button>
+        </div>
+      </div>
+
+      <!-- Lista de Jogadores -->
+      <div id="players-list" class="players-list">
+        <!-- Jogadores renderizados pelo JS -->
+      </div>
+
+      <div id="empty-players-msg" class="empty-state">
+        <p>🏟️ Nenhum jogador cadastrado</p>
+        <p class="text-muted">Adicione jogadores acima para começar</p>
+      </div>
+    </section>
+
+    <!-- ==================== TELA 3: CONFIGURAÇÃO ==================== -->
+    <section id="config-screen" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" data-screen="home-screen">←</button>
+        <h2>⚙️ Configurar Sorteio</h2>
+      </header>
+
+      <div class="card">
+        <div class="config-group">
+          <label>Quantidade de times</label>
+          <div class="stepper">
+            <button class="stepper-btn" data-target="num-teams" data-action="dec">−</button>
+            <span class="stepper-value" id="num-teams">2</span>
+            <button class="stepper-btn" data-target="num-teams" data-action="inc">+</button>
+          </div>
+        </div>
+
+        <div class="config-group">
+          <label>Jogadores por time</label>
+          <div class="stepper">
+            <button class="stepper-btn" data-target="players-per-team" data-action="dec">−</button>
+            <span class="stepper-value" id="players-per-team">5</span>
+            <button class="stepper-btn" data-target="players-per-team" data-action="inc">+</button>
+          </div>
+        </div>
+
+        <div class="config-summary" id="config-summary">
+          <!-- Preenchido pelo JS -->
+        </div>
+
+        <div id="config-error" class="config-error" style="display:none;">
+          <!-- Mensagens de erro -->
+        </div>
+
+        <!-- Área de seleção de jogadores (quando há mais jogadores do que o necessário) -->
+        <div id="player-selection-area" style="display:none;">
+          <h3>Selecionar Jogadores</h3>
+          <p class="text-muted">Desmarque os jogadores que não vão participar</p>
+          <div id="player-checkboxes" class="player-checkboxes">
+            <!-- Renderizado pelo JS -->
+          </div>
+          <p class="selected-count" id="selected-count"></p>
+        </div>
+
+        <button class="btn btn-accent btn-large btn-full" id="btn-sort">
+          🎲 SORTEAR TIMES
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== TELA 4: RESULTADOS ==================== -->
+    <section id="results-screen" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" data-screen="config-screen">←</button>
+        <h2>🏆 Times Sorteados</h2>
+      </header>
+
+      <div class="balance-indicator" id="balance-indicator">
+        <!-- Percentual de equilíbrio exibido aqui -->
+      </div>
+
+      <div id="teams-container" class="teams-container">
+        <!-- Cards de time renderizados pelo JS -->
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-accent btn-large btn-full" id="btn-sort-again">
+          🎲 SORTEAR NOVAMENTE
+        </button>
+        <button class="btn btn-secondary btn-large btn-full" id="btn-share">
+          📤 Compartilhar Times
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== TELA 5: SOBRE ==================== -->
+    <section id="about-screen" class="screen">
+      <header class="screen-header">
+        <button class="btn-back" data-screen="home-screen">←</button>
+        <h2>ℹ️ Como Funciona</h2>
+      </header>
+
+      <div class="card about-card">
+        <h3>⚖️ Equilíbrio Inteligente</h3>
+        <p>O sorteio não considera apenas a quantidade de estrelas. Ele analisa ataque, defesa, goleiro, preferências e a composição de cada time.</p>
+
+        <h3>🧤 Goleiros são Especiais</h3>
+        <p>Bons goleiros (5 estrelas) recebem maior peso porque são mais raros e têm maior impacto no equilíbrio da partida. O algoritmo distribui os goleiros entre os times antes de sortear os demais jogadores.</p>
+
+        <h3>⚖️ Pesos das Habilidades</h3>
+        <div class="weight-info">
+          <div class="weight-item">
+            <span>🧤 Goleiro</span>
+            <div class="weight-bar" style="width: 100%">Peso 3</div>
+          </div>
+          <div class="weight-item">
+            <span>🛡️ Defesa</span>
+            <div class="weight-bar" style="width: 66%">Peso 2</div>
+          </div>
+          <div class="weight-item">
+            <span>⚽ Ataque</span>
+            <div class="weight-bar" style="width: 33%">Peso 1</div>
+          </div>
+        </div>
+
+        <h3>🎯 Preferências</h3>
+        <p>O sistema tenta respeitar a preferência de posição de cada jogador, mas o equilíbrio dos times é sempre a prioridade principal.</p>
+
+        <h3>🎲 Múltiplas Soluções</h3>
+        <p>O algoritmo gera dezenas de divisões equilibradas e escolhe uma aleatoriamente. Ao clicar em "Sortear novamente", você recebe outra divisão igualmente equilibrada.</p>
+
+        <h3>🔄 Jogadores Versáteis</h3>
+        <p>Jogadores com habilidades semelhantes em várias posições são usados como "coringas" para resolver desequilíbrios na composição dos times.</p>
+      </div>
+    </section>
+
+  </div><!-- /.app-container -->
+
+  <!-- ==================== OVERLAY DE SORTEIO ==================== -->
+  <div id="sorting-overlay" class="sorting-overlay" style="display:none;">
+    <div class="sorting-animation">
+      <div class="sorting-ball">⚽</div>
+      <p>Sorteando times...</p>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DE CONFIRMAÇÃO ==================== -->
+  <div id="confirm-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <p id="confirm-message"></p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="confirm-cancel">Cancelar</button>
+        <button class="btn btn-danger" id="confirm-ok">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="js/algorithm.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>
