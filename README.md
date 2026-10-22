@@ -467,3 +467,5 @@ Um bom sorteio deve fazer com que nenhum time entre em campo pensando:
 > "Esse jogo já está ganho."
 
 ⚽ **Times equilibrados. Sorteio justo. Pelada melhor.**
+
+Autoria: Rafael Ribeiro.
